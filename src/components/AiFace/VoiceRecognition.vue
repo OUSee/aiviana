@@ -1,19 +1,20 @@
 <script setup>
+import { inject } from 'vue';
+
 let audioContext, analyser, mediaRecorder;
 let audioChunks = [];
 let recordedVolumes = [];
 let monitoringInterval, silenceStartTime, confirmPauseTimeout;
 let stream;
 let hasStartedRecording = false;
-
 const uid = crypto.randomUUID();
 const silenceThreshold = 0.02;
 const silenceDelay = 2000;
 const confirmPauseDelay = 2000;
+const currentState = inject('currentState')
 
-function updateStatus(text, show = true) {
-    if (show) statusEl.textContent = text;
-    console.log("[СТАТУС]:", text);
+function updateStatus(status) {
+    currentState.value = status
 }
 
 function getVolume(dataArray) {
@@ -25,20 +26,26 @@ function getVolume(dataArray) {
     return Math.sqrt(sumSquares / dataArray.length) / 128;
 }
 
+// start here
 function startInterview() {
-    startBtn.style.display = "none";
-    updateStatus("Говорю: Приветственное сообщение");
-
-    const audio = new Audio("start.wav");
+    updateStatus("speak");
+    const audio = new Audio("https://aiviana.com/start.wav");
     audio.play();
     audio.onended = () => {
         listenToUser();
     };
 }
 
-async function listenToUser() {
-    updateStatus("Слушаю");
+async function firstLine() {
+    const response = await fetch("https://aiviana.com/api/process", {
+        method: "POST",
+        body: formData
+    });
 
+}
+
+async function listenToUser() {
+    updateStatus("listen");
     stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     audioChunks = [];
     recordedVolumes = [];
@@ -53,7 +60,7 @@ async function listenToUser() {
     mediaRecorder.onstop = () => {
         stopMonitoring();
         if (audioChunks.length === 0) {
-            updateStatus("Слушаю");
+            updateStatus('listen');
             setTimeout(() => listenToUser(), 1000);
         } else {
             sendToBackend();
@@ -78,7 +85,7 @@ function startMonitoring() {
         const volume = getVolume(dataArray);
 
         if (!hasStartedRecording && volume > silenceThreshold) {
-            console.log("🟢 Начало записи (обнаружена речь)");
+            console.log("Начало записи (обнаружена речь)");
             mediaRecorder.start();
             hasStartedRecording = true;
         }
@@ -92,14 +99,14 @@ function startMonitoring() {
                 if (!silenceStartTime) {
                     silenceStartTime = now;
                 } else if (now - silenceStartTime > silenceDelay && !confirmPauseTimeout) {
-                    updateStatus("Готовлюсь к анализу");
+                    updateStatus("preprocessing");
                     confirmPauseTimeout = setTimeout(() => {
                         analyser.getByteTimeDomainData(dataArray);
                         const v = getVolume(dataArray);
                         if (v < silenceThreshold) {
                             mediaRecorder.stop();
                         } else {
-                            updateStatus("Слушаю");
+                            updateStatus("listen");
                             silenceStartTime = null;
                             confirmPauseTimeout = null;
                         }
@@ -110,7 +117,7 @@ function startMonitoring() {
                 if (confirmPauseTimeout) {
                     clearTimeout(confirmPauseTimeout);
                     confirmPauseTimeout = null;
-                    updateStatus("Слушаю");
+                    updateStatus("listen");
                 }
             }
         }
@@ -126,7 +133,7 @@ function stopMonitoring() {
 }
 
 async function sendToBackend() {
-    updateStatus("Анализирую");
+    updateStatus("idle");
 
     const blob = new Blob(audioChunks, { type: 'audio/webm' });
     const formData = new FormData();
@@ -134,21 +141,22 @@ async function sendToBackend() {
     formData.append("uid", uid);
 
     try {
-        const response = await fetch("/api/process", {
+        const response = await fetch("https://aiviana.com/api/process", {
             method: "POST",
             body: formData
         });
 
         if (!response.ok) {
             console.error("Ошибка от сервера:", await response.text());
-            updateStatus("Ошибка при анализе. Повторите попытку.");
+            updateStatus('connecting');
             return;
         }
 
         const data = await response.json();
 
-        updateStatus("Говорю: ответ от AI");
-        const botAudio = new Audio(data.audio_path);
+
+        updateStatus("speak");
+        const botAudio = new Audio('https://aiviana.com' + data.audio_path);
         botAudio.play();
 
         botAudio.onended = () => {
@@ -156,7 +164,15 @@ async function sendToBackend() {
         };
     } catch (err) {
         console.error("Ошибка при отправке запроса:", err);
-        updateStatus("Сетевая ошибка. Повторите попытку.");
+        updateStatus('connecting');
+
     }
 }
+
+
+// startInterview()
 </script>
+
+<template>
+    <button @click="startInterview">START INTERVIEW</button>
+</template>

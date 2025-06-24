@@ -10,7 +10,6 @@ const stateTranslate = {
     'speak': 'Говорю',
     'listen': 'Слушаю',
     'preprocessing': 'Готовлюсь к анализу',
-    'processing': 'Aнализирую',
     'connecting': ''
 }
 
@@ -25,9 +24,10 @@ const stateChange = () => {
                 orbRef.value.classList.remove('change');
                 setTimeout(() => {
                     orbRef.value.classList.add('change');
-                    currentState.value = state
-                }, 300)
+                    setTimeout(() => {
 
+                    }, 250)
+                }, 300)
             }
         });
     }
