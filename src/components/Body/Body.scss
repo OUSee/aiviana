@@ -23,5 +23,22 @@
         &>h1 {
             text-align: center;
         }
+
+        &>.interview-manuals {
+            display: flex;
+            flex-direction: row;
+            gap: 12px;
+            align-items: center;
+            margin-top: 12px;
+
+            &>p {
+                color: #10285666;
+                width: fit-content;
+                margin-top: 0;
+                margin-bottom: 0;
+            }
+        }
     }
+
+
 }

@@ -1,5 +1,7 @@
 <script setup>
-const props = defineProps(['progressBarId', 'progressValue'])
+import { inject } from 'vue';
+const props = defineProps(['progressBarId'])
+const progressValue = inject('progress_state')
 </script>
 
 <template>

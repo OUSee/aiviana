@@ -1,8 +1,9 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, inject, useTemplateRef } from 'vue'
 
-const currentState = ref('connecting')
+const currentState = inject('currentState')
 const counter = ref(0)
+const orbRef = useTemplateRef('orb')
 
 const stateTranslate = {
     'idle': 'Анализирую',
@@ -14,23 +15,28 @@ const stateTranslate = {
 }
 
 const stateChange = () => {
-    Object.entries(stateTranslate).forEach(([state, value], index) => {
-        if (index === counter.value) {
-            currentState.value = state
-        }
-
-    });
     if (counter.value > Object.entries(stateTranslate).length) {
         counter.value = 0
     }
     else {
         counter.value++
+        Object.entries(stateTranslate).forEach(([state, value], index) => {
+            if (index === counter.value) {
+                orbRef.value.classList.remove('change');
+                setTimeout(() => {
+                    orbRef.value.classList.add('change');
+                    currentState.value = state
+                }, 300)
+
+            }
+        });
     }
+
 } 
 </script>
 
 <template>
-    <div class="orb">
+    <div ref="orb" class="orb">
         <div v-if="currentState !== 'connecting'" class="orb-target" :class="currentState">
         </div>
         <video v-else autoplay loop>
@@ -46,7 +52,7 @@ const stateChange = () => {
         </p>
     </div>
 
-    <!-- <button :onclick="stateChange">switch state idle</button> -->
+    <button :onclick="stateChange">switch state {{ currentState }}</button>
 </template>
 
 <style scoped>
