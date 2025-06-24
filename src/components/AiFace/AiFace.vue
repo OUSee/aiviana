@@ -13,26 +13,6 @@ const stateTranslate = {
     'connecting': ''
 }
 
-const stateChange = () => {
-    if (counter.value > Object.entries(stateTranslate).length) {
-        counter.value = 0
-    }
-    else {
-        counter.value++
-        Object.entries(stateTranslate).forEach(([state, value], index) => {
-            if (index === counter.value) {
-                orbRef.value.classList.remove('change');
-                setTimeout(() => {
-                    orbRef.value.classList.add('change');
-                    setTimeout(() => {
-
-                    }, 250)
-                }, 300)
-            }
-        });
-    }
-
-} 
 </script>
 
 <template>
@@ -51,8 +31,6 @@ const stateChange = () => {
             <b>AIVIANA</b><br> подключается к интервью, пожалуйста подождите...
         </p>
     </div>
-
-    <button :onclick="stateChange">switch state {{ currentState }}</button>
 </template>
 
 <style scoped>

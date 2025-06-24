@@ -6,17 +6,15 @@ import SoundWaves from '../SoundWaves/SoundWaves.vue'
 import VoiceRecognition from '../AiFace/VoiceRecognition.vue'
 
 import { ref, provide } from 'vue'
-const currentState = ref('connect');
-const progress_state = ref(0);
+const currentState = ref('connecting');
+const progress_state = ref(30);
 const microOn = ref(false)
+const audioDetected = ref(false)
 
 provide('currentState', currentState)
 provide('progress_state', progress_state)
 provide('microOn', microOn)
-// provide('isListening', isListening)
-const handleStartInterview = () => {
-
-}
+provide('audioDetected', audioDetected)
 
 const handleEndInterview = () => {
   state.value = 'end'
@@ -37,7 +35,7 @@ const handleEndInterview = () => {
           Ваш микрофон:
         </p>
         <Microphone :microOn="microOn" />
-        <SoundWaves :microOn="microOn" />
+        <SoundWaves :microOn="microOn" :audioDetected="audioDetected" />
         <p class="ml-auto">
           Пройдено {{ progress_state }}%
         </p>
@@ -47,7 +45,7 @@ const handleEndInterview = () => {
       </div>
     </div>
   </div>
-  <VoiceRecognition :currentState="currentState" />
+  <VoiceRecognition :currentState="currentState" :audioDetected="audioDetected" :microOn="microOn" />
 </template>
 
 <style scoped>

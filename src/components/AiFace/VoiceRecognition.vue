@@ -12,6 +12,8 @@ const silenceThreshold = 0.02;
 const silenceDelay = 2000;
 const confirmPauseDelay = 2000;
 const currentState = inject('currentState')
+const audioDetected = inject('audioDetected')
+const microOn = inject('microOn')
 
 function updateStatus(status) {
     currentState.value = status
@@ -29,6 +31,7 @@ function getVolume(dataArray) {
 // start here
 function startInterview() {
     updateStatus("speak");
+    microOn.value = false;
     const audio = new Audio("https://aiviana.com/start.wav");
     audio.play();
     audio.onended = () => {
@@ -36,16 +39,10 @@ function startInterview() {
     };
 }
 
-async function firstLine() {
-    const response = await fetch("https://aiviana.com/api/process", {
-        method: "POST",
-        body: formData
-    });
-
-}
 
 async function listenToUser() {
     updateStatus("listen");
+    microOn.value = true
     stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     audioChunks = [];
     recordedVolumes = [];
@@ -85,7 +82,6 @@ function startMonitoring() {
         const volume = getVolume(dataArray);
 
         if (!hasStartedRecording && volume > silenceThreshold) {
-            console.log("Начало записи (обнаружена речь)");
             mediaRecorder.start();
             hasStartedRecording = true;
         }
@@ -95,25 +91,29 @@ function startMonitoring() {
             if (recordedVolumes.length > 200) recordedVolumes.shift();
 
             const now = Date.now();
-            if (volume < silenceThreshold) {
+            if (volume < silenceThreshold || microOn.value === false) {
                 if (!silenceStartTime) {
                     silenceStartTime = now;
-                } else if (now - silenceStartTime > silenceDelay && !confirmPauseTimeout) {
+                    audioDetected.value = false;
+                } else if (now - silenceStartTime > silenceDelay && !confirmPauseTimeout || microOn.value === false) {
                     updateStatus("preprocessing");
                     confirmPauseTimeout = setTimeout(() => {
                         analyser.getByteTimeDomainData(dataArray);
                         const v = getVolume(dataArray);
-                        if (v < silenceThreshold) {
+                        if (v < silenceThreshold || microOn.value === false) {
                             mediaRecorder.stop();
                         } else {
                             updateStatus("listen");
                             silenceStartTime = null;
                             confirmPauseTimeout = null;
+                            audioDetected.value = true;
                         }
                     }, confirmPauseDelay);
                 }
-            } else {
+            }
+            else {
                 silenceStartTime = null;
+                audioDetected.value = true;
                 if (confirmPauseTimeout) {
                     clearTimeout(confirmPauseTimeout);
                     confirmPauseTimeout = null;
@@ -156,21 +156,17 @@ async function sendToBackend() {
 
 
         updateStatus("speak");
+        microOn.value = false;
         const botAudio = new Audio('https://aiviana.com' + data.audio_path);
         botAudio.play();
-
         botAudio.onended = () => {
-            listenToUser(); // продолжить цикл
+            listenToUser();
         };
     } catch (err) {
         console.error("Ошибка при отправке запроса:", err);
         updateStatus('connecting');
-
     }
 }
-
-
-// startInterview()
 </script>
 
 <template>
