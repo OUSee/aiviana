@@ -13,14 +13,16 @@
 
 
     &>.content {
-        width: 800;
-        height: 402;
+        width: 800px;
+        height: 402px;
         min-width: 420px;
         justify-content: space-between;
         position: relative;
 
         &>h1 {
             text-align: center;
+            position: relative;
+            z-index: 1;
         }
 
         &>.interview-manuals {
@@ -29,6 +31,8 @@
             gap: 12px;
             align-items: center;
             margin-top: 12px;
+            position: relative;
+            z-index: 1;
 
             &>p {
                 color: #10285666;
@@ -38,6 +42,5 @@
             }
         }
     }
-
 
 }

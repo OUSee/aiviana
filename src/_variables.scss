@@ -109,6 +109,13 @@ progress {
     overflow: hidden;
     border: none;
     background-color: #EEFAFF;
+    position: relative;
+    z-index: 1;
+}
+
+.navigate {
+    position: absolute;
+    top: 20px;
 }
 
 /* Фон прогресс-бара в Chrome/Safari */

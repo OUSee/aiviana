@@ -14,6 +14,9 @@ const confirmPauseDelay = 2000;
 const currentState = inject('currentState')
 const audioDetected = inject('audioDetected')
 const microOn = inject('microOn')
+// hardcode
+const ai_talk = inject('ai_talk')
+// /hardcode
 
 function updateStatus(status) {
     currentState.value = status
@@ -31,12 +34,13 @@ function getVolume(dataArray) {
 // start here
 function startInterview() {
     updateStatus("speak");
-    microOn.value = false;
-    const audio = new Audio("https://aiviana.com/start.wav");
-    audio.play();
-    audio.onended = () => {
-        listenToUser();
-    };
+    // listenToUser();
+    //microOn.value = false;
+    // const audio = new Audio("https://aiviana.com/start.wav");
+    // audio.play();
+    // audio.onended = () => {
+    //     listenToUser();
+    // };
 }
 
 
@@ -95,6 +99,7 @@ function startMonitoring() {
                 if (!silenceStartTime) {
                     silenceStartTime = now;
                     audioDetected.value = false;
+                    ai_talk.value = false;
                 } else if (now - silenceStartTime > silenceDelay && !confirmPauseTimeout || microOn.value === false) {
                     updateStatus("preprocessing");
                     confirmPauseTimeout = setTimeout(() => {
@@ -107,6 +112,7 @@ function startMonitoring() {
                             silenceStartTime = null;
                             confirmPauseTimeout = null;
                             audioDetected.value = true;
+                            ai_talk.value = true
                         }
                     }, confirmPauseDelay);
                 }
@@ -114,6 +120,7 @@ function startMonitoring() {
             else {
                 silenceStartTime = null;
                 audioDetected.value = true;
+                ai_talk.value = true;
                 if (confirmPauseTimeout) {
                     clearTimeout(confirmPauseTimeout);
                     confirmPauseTimeout = null;
@@ -170,5 +177,11 @@ async function sendToBackend() {
 </script>
 
 <template>
-    <button @click="startInterview">START INTERVIEW</button>
+    <div class="navigate">
+        <button @click="startInterview">Speak</button>
+        <button @click="updateStatus('listen'); listenToUser()">Listen</button>
+        <button @click="updateStatus('preprocessing')">PreAnalyze</button>
+        <button @click="updateStatus('idle')">Idle</button>
+        <button @click="updateStatus('connecting')">connecting</button>
+    </div>
 </template>

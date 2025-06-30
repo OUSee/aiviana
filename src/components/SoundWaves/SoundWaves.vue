@@ -1,7 +1,8 @@
 <script setup>
 import { inject } from 'vue';
 const microOn = inject('microOn');
-const audioDetected = inject('audioDetected')
+const audioDetected = inject('audioDetected');
+
 </script>
 
 <template>

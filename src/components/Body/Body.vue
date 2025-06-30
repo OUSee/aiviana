@@ -10,11 +10,13 @@ const currentState = ref('connecting');
 const progress_state = ref(30);
 const microOn = ref(false)
 const audioDetected = ref(false)
+const ai_talk = ref(false)
 
 provide('currentState', currentState)
 provide('progress_state', progress_state)
 provide('microOn', microOn)
 provide('audioDetected', audioDetected)
+provide('ai_talk', ai_talk)
 
 const handleEndInterview = () => {
   state.value = 'end'
@@ -45,7 +47,7 @@ const handleEndInterview = () => {
       </div>
     </div>
   </div>
-  <VoiceRecognition :currentState="currentState" :audioDetected="audioDetected" :microOn="microOn" />
+  <VoiceRecognition :currentState="currentState" :audioDetected="audioDetected" :microOn="microOn" :ai_talk="ai_talk" />
 </template>
 
 <style scoped>
