@@ -39,9 +39,6 @@
         overflow: hidden;
         z-index: 0;
 
-
-        &.connecting {}
-
         &.speak {
             width: 280px;
             height: 280px;
@@ -100,7 +97,7 @@
         width: 100%;
         position: absolute;
         text-align: center;
-        color: #6066EE;
+        color: var(--status);
         font-size: 17px;
         width: 100%;
         top: 50%;

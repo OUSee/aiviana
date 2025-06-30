@@ -2,22 +2,82 @@
     box-sizing: border-box;
 }
 
+// colors
+:root {
+    --main-bg: linear-gradient(287.6deg, #EEFAFF 2.54%, #F9FDFE 93.51%);
+    --main-bg-dark: linear-gradient(288.09deg, #00091A 16.04%, #07183A 94.75%);
+
+    --content-bg: #FFFFFF;
+    --content-bg-dark: #15173F;
+
+    --grad-progress: linear-gradient(91.46deg, #B1E1FF 0%, #B6B9FF 100%);
+    --grad-progress-dark: linear-gradient(109.12deg, #B6B9FF 9.49%, #6066EE 80.81%);
+
+    --progress-track: #EEFAFF;
+
+    --status: #6066EE;
+    --status-dark: #102856;
+
+    --main-color: #102856;
+    --main-color-dark: white;
+
+    --button-bg: #B8C4CC;
+    --button-hover-bg: #B1E1FF;
+
+    --button-bg-dark: #4F5971;
+    --button-hover-bg-dark: #6066EE;
+
+    --debug: 1px solid lightgrey;
+    --debug-dark: 1px solid rgba(0, 102, 255, 0.541);
+}
+
+.dark {
+    --main-bg: var(--main-bg-dark);
+    --content-bg: var(--content-bg-dark);
+    --grad-progress: var(--grad-progress-dark);
+    --status: var(--status-dark);
+    --main-color: var(--main-color-dark);
+    --button-bg: var(--button-bg-dark);
+    --button-hover-bg: var(--button-hover-bg-dark);
+    --debug: var(--debug-dark);
+}
+
+
 
 body {
-    background: linear-gradient(287.6deg, #EEFAFF 2.54%, #F9FDFE 93.51%);
+    background: var(--main-bg);
     margin: 0;
     font-family: sans-serif;
+
+    // debug
+    // * {
+    //     outline: var(--debug);
+    // }
 }
 
 
 #app {
+    max-width: 100%;
+    background: var(--main-bg);
+}
+
+.container {
     max-width: 1200px;
     margin: 0 auto;
+
+    @media (max-width: 1400px) {
+        max-width: 100%;
+        margin: 0 80px;
+    }
+
+    @media (max-width: 762px) {
+        margin: 0 30px;
+    }
 }
 
 a {
     text-decoration: none;
-    color: #102856;
+    color: var(--main-color);
 }
 
 h1 {
@@ -44,6 +104,10 @@ header {
 
     &>.lk {
         margin-left: auto;
+    }
+
+    @media (max-width: 762px) {
+        gap: 6px;
     }
 }
 
@@ -108,7 +172,7 @@ progress {
     border-radius: 10px;
     overflow: hidden;
     border: none;
-    background-color: #EEFAFF;
+    background-color: var(--progress-track);
     position: relative;
     z-index: 1;
 }
@@ -120,20 +184,20 @@ progress {
 
 /* Фон прогресс-бара в Chrome/Safari */
 progress::-webkit-progress-bar {
-    background-color: #EEFAFF;
+    background-color: var(--progress-track);
     border-radius: 10px;
 }
 
 /* Заполнение прогресс-бара в Chrome/Safari */
 progress::-webkit-progress-value {
-    background: linear-gradient(91.46deg, #B1E1FF 0%, #B6B9FF 100%);
+    background: var(--grad-progress);
 
     border-radius: 10px;
 }
 
 /* Заполнение в Firefox */
 progress::-moz-progress-bar {
-    background-color: #EEFAFF;
+    background: var(--grad-progress);
     border-radius: 10px;
 }
 
@@ -142,6 +206,7 @@ progress::-moz-progress-bar {
     border: 1px solid transparent;
     height: 33px;
     width: 33px;
+    max-width: 33px;
     padding: 0;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
@@ -170,7 +235,7 @@ progress::-moz-progress-bar {
 
 .button {
     &-classic {
-        background: #D7E0E6;
+        background: var(--button-bg);
         color: white;
         font-size: 15px;
         font-weight: 400;
@@ -184,7 +249,7 @@ progress::-moz-progress-bar {
         cursor: pointer;
 
         &:hover {
-            background: #4F5971;
+            background: var(--button-hover-bg);
         }
     }
 

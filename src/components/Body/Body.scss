@@ -1,21 +1,19 @@
 .main-view {
     width: 100%;
-    background-color: #FFFFFF;
+    background-color: var(--content-bg);
     height: fit-content;
     max-width: 1200px;
-    min-width: 560px;
+    min-width: 300px;
     gap: 10px;
-    padding-top: 64px;
-    padding-right: 200px;
-    padding-bottom: 64px;
-    padding-left: 200px;
+    padding: 64px 24px;
     border-radius: 20px;
+    margin: 0 auto;
 
 
     &>.content {
-        width: 800px;
-        height: 402px;
-        min-width: 420px;
+        margin: 0 auto;
+        max-width: 800px;
+        width: 100%;
         justify-content: space-between;
         position: relative;
 
@@ -35,10 +33,48 @@
             z-index: 1;
 
             &>p {
-                color: #10285666;
+                color: var(--main-color);
                 width: fit-content;
                 margin-top: 0;
                 margin-bottom: 0;
+            }
+
+            @media (max-width: 900px) {
+                flex-wrap: wrap;
+
+                &>p:first-child {
+                    display: none;
+                }
+            }
+
+            @media (max-width: 762px) {
+                .microphone-toggle {
+                    flex: 1 1 45%;
+                    justify-content: start;
+                }
+
+                .soundwaves {
+                    flex: 1 1 45%;
+                    justify-content: end;
+                }
+
+                &>p {
+                    margin-top: 66px;
+                    flex: 1 1 100%;
+                    text-align: center;
+                }
+
+                .button-classic {
+                    flex: 1 1 100%;
+                }
+
+            }
+        }
+
+        &>progress {
+            @media (max-width: 762px) {
+                position: absolute;
+                bottom: 99px;
             }
         }
     }

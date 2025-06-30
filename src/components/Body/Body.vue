@@ -20,7 +20,6 @@ provide('ai_talk', ai_talk)
 
 const handleEndInterview = () => {
   state.value = 'end'
-
 }
 </script>
 
