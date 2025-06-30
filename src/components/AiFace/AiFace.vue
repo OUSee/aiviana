@@ -40,6 +40,9 @@ watch(currentState, (value, prevVal) => {
         </div>
         <video v-else autoplay loop>
             <source
+                src="../../assets/ai_conditions/Firefly An ethereal, translucent glowing orb floating on a pure white background, featuring soft-foc.webm"
+                type="video/webm">
+            <source
                 src="../../assets/ai_conditions/Firefly An ethereal, translucent glowing orb floating on a pure white background, featuring soft-foc.mp4"
                 type="video/mp4">
             Your browser does not support the video tag.
