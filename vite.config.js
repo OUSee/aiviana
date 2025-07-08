@@ -5,7 +5,7 @@ import { fileURLToPath, URL } from 'node:url'
 
 
 export default defineConfig({
-  base: '/aiviana/',
+  base: '/',
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))

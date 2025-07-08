@@ -22,6 +22,7 @@
         position: relative;
         object-fit: cover;
         border-radius: 50%;
+        // filter: contrast(1.2);
         // outline: 1px solid black;
     }
 
@@ -44,7 +45,7 @@
             height: 280px;
             top: calc(50% - 140px);
             left: calc(50% - 140px);
-            background-image: url('../../assets/ai_conditions/speak/aiviana_speak.png');
+            background-image: var(--aiviana);
             background-position: center center;
             background-size: 342px 342px;
             border-radius: 50%;
@@ -52,10 +53,9 @@
         }
 
         &.preprocessing {
-
-            background-size: 410px 410px;
+            background-size: 342px 342px;
             background-position: center center;
-            background-image: url('../../assets/ai_conditions/listen/aiviana_listen.png');
+            background-image: var(--aiviana);
 
 
 
@@ -79,14 +79,14 @@
             background-size: 342px 342px;
             border-radius: 50%;
             overflow: hidden;
-            background-image: url('../../assets/ai_conditions/speak/aiviana_speak.png');
+            background-image: var(--aiviana);
         }
 
         &.listen {
-            background-size: 410px 410px;
+            background-size: 342px 342px;
             background-position: center center;
-            background-image: url('../../assets/ai_conditions/listen/aiviana_listen.png');
-            animation: infinite cubic-bezier(0.25, 0.46, 0.45, 0.94) 5s listen;
+            background-image: var(--aiviana);
+            animation: infinite ease-in 5s listen;
         }
     }
 
@@ -107,36 +107,27 @@
 }
 
 @keyframes listen {
+
     0% {
-        background-image: url('../../assets/ai_conditions/listen/aiviana_listen.png');
         opacity: 1;
         transform: rotate(0deg);
     }
 
-
     25% {
-        background-image: url('../../assets/ai_conditions/listen/aiviana_listen=90.png');
-        opacity: 1;
-        transform: rotate(90deg);
+        opacity: 0.3;
     }
 
-
     50% {
-        background-image: url('../../assets/ai_conditions/listen/aiviana_listen=180.png');
-        opacity: 1;
+        opacity: 0.7;
         transform: rotate(180deg);
     }
 
-
     75% {
-        background-image: url('../../assets/ai_conditions/listen/aiviana_listen=270.png');
-        opacity: 1;
-        transform: rotate(270deg);
+        opacity: 0.3;
+
     }
 
     100% {
-        background-image: url('../../assets/ai_conditions/listen/aiviana_listen.png');
-        opacity: 1;
         transform: rotate(360deg);
     }
 }

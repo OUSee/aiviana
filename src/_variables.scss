@@ -29,6 +29,9 @@
 
     --debug: 1px solid lightgrey;
     --debug-dark: 1px solid rgba(0, 102, 255, 0.541);
+
+    --aiviana: url('../src/assets/ai_conditions/image/AVIANA\ LIGHT\ no\ background\ копия.png');
+    --aiviana-dark: url('../src/assets/ai_conditions/image/AVIANA_DARK.png');
 }
 
 .dark {
@@ -40,6 +43,7 @@
     --button-bg: var(--button-bg-dark);
     --button-hover-bg: var(--button-hover-bg-dark);
     --debug: var(--debug-dark);
+    --aiviana: var(--aiviana-dark)
 }
 
 
@@ -47,8 +51,7 @@
 body {
     background: var(--main-bg);
     margin: 0;
-    font-family: sans-serif;
-
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     // debug
     // * {
     //     outline: var(--debug);

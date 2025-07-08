@@ -10,6 +10,12 @@
 }
 </style>
 
+<script setup>
+import { inject } from 'vue';
+
+const themeDark = inject('themeDark')
+</script>
+
 <template>
     <svg class="svg_preloader" version="1.1" xmlns="http://www.w3.org/2000/svg"
         xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 248 248"
@@ -19,7 +25,7 @@
             <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 60 -20">
             </feColorMatrix>
         </filter>
-        <circle stroke="#fff" fill="none" stroke-width="3" cx="124" cy="124" r="120"></circle>
+        <!-- <circle stroke="#fff" fill="none" stroke-width="3" cx="124" cy="124" r="120"></circle> -->
         <g id="shape" filter="url(#goo)">
             <circle stroke="#fff" fill="none" stroke-width="10" cx="124" cy="124" r="105"></circle>
             <circle fill="#fff" cx="0" cy="0" r="36" transform="translate(124 124)">

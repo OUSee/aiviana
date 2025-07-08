@@ -9,6 +9,8 @@ const currentState = inject('currentState')
 const ai_talk = inject('ai_talk');
 const orbRef = useTemplateRef('orb')
 
+const themeDark = inject('themeDark')
+
 const stateTranslate = {
     'idle': 'Анализирую',
     'speak': 'Говорю',
@@ -39,13 +41,12 @@ watch(currentState, (value, prevVal) => {
         <div v-if="currentState !== 'connecting'" class="orb-target" :class="[{ active: ai_talk }, currentState]">
         </div>
         <video v-else autoplay loop>
-            <source
-                src="../../assets/ai_conditions/Firefly An ethereal, translucent glowing orb floating on a pure white background, featuring soft-foc.webm"
-                type="video/webm">
-            <source
-                src="../../assets/ai_conditions/Firefly An ethereal, translucent glowing orb floating on a pure white background, featuring soft-foc.mp4"
-                type="video/mp4">
+            <source v-if="!themeDark" src="../../assets/ai_conditions/Video Itog LIGHT.webm" type="video/webm">
+            <source v-else src="../../assets/ai_conditions/IMG_5524.webm">
+            <!-- <source v-else src="../../assets/ai_conditions/videoItogDark.webm" type="video/webm"> -->
+
             Your browser does not support the video tag.
+
         </video>
         <p v-if="currentState !== 'connecting'" class="ai-state">// {{ stateTranslate[currentState] }} //</p>
         <p v-else class="ai-state">
