@@ -1,7 +1,7 @@
 <script setup>
 import { inject } from 'vue';
 import Toggle from '../Toggle/Toggle.vue'
-const mobileVsible = window.innerWidth > 762;
+import BigLogoIcon from '../icons/BigLogoIcon.vue'
 const themeDark = inject('themeDark')
 const handleThemeChange = () => {
     themeDark.value = !themeDark.value
@@ -11,10 +11,10 @@ const handleThemeChange = () => {
 <template>
     <header>
         <a href="#" class="logo--main">
-            <img src="/aiviana-logo-big.svg" alt="">
+            <BigLogoIcon :themeDark="themeDark" />
         </a>
         <a href="#" class="lk disabled">
-            <p v-if="mobileVsible">Личный кабинет</p>
+            <p>Личный кабинет</p>
             <div class="user-bg">
                 <img src="/User.svg" alt="">
             </div>

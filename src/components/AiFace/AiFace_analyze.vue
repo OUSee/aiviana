@@ -14,6 +14,7 @@
 import { inject } from 'vue';
 
 const themeDark = inject('themeDark')
+const dark = '#15173f'
 </script>
 
 <template>
@@ -27,8 +28,9 @@ const themeDark = inject('themeDark')
         </filter>
         <!-- <circle stroke="#fff" fill="none" stroke-width="3" cx="124" cy="124" r="120"></circle> -->
         <g id="shape" filter="url(#goo)">
-            <circle stroke="#fff" fill="none" stroke-width="10" cx="124" cy="124" r="105"></circle>
-            <circle fill="#fff" cx="0" cy="0" r="36" transform="translate(124 124)">
+            <circle :stroke="themeDark ? dark : '#fff'" fill="none" stroke-width="10" cx="124" cy="124" r="105">
+            </circle>
+            <circle :fill="'#fff'" cx="0" cy="0" r="36" transform="translate(124 124)">
                 <animateTransform attributeName="transform" type="scale" additive="sum" values="1.3;0.55;0.55;1.3"
                     keyTimes="0;0.4;0.6;1" dur="4s" repeatCount="indefinite"></animateTransform>
             </circle>

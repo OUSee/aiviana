@@ -1,8 +1,16 @@
+.logo-main {}
+
 .lk {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 24px;
+
+    &>p {
+        @media (max-width: 600px) {
+            display: none;
+        }
+    }
 
     .user-bg {
         width: 40px;
